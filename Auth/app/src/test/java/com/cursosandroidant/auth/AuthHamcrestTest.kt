@@ -70,7 +70,7 @@ class AuthHamcrestTest {
     fun loginUser_nullForm_returnsException() {
         try {
             val result = userAuthenticationTDD(null, null)
-            Assert.assertEquals(AuthEvent.NULL_FORM, result)
+            assertThat(AuthEvent.NULL_FORM, `is`(result))
         } catch (e: Exception) {
             (e as? AuthException)?.let {
                 Assert.assertEquals(AuthEvent.NULL_FORM, it.authEvent)
@@ -82,10 +82,10 @@ class AuthHamcrestTest {
     fun loginUser_errorLengthPassword_returnsFailEvent() {
         try {
             val result = userAuthenticationTDD("srgergerg", "123")
-            Assert.assertEquals(AuthEvent.LENGHT_PASSWORD, result)
+            assertThat(AuthEvent.LENGHT_PASSWORD, `is`(result))
         } catch (e: AuthException) {
             e.let {
-                Assert.assertEquals(AuthEvent.LENGHT_PASSWORD, it.authEvent)
+                assertThat(AuthEvent.LENGHT_PASSWORD, `is`(it.authEvent))
             }
         }
     }
