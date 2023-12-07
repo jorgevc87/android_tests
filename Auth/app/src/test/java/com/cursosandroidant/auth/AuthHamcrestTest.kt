@@ -89,4 +89,40 @@ class AuthHamcrestTest {
             }
         }
     }
+
+    //Ejercicios con Hamcrest
+    @Test
+    fun checkNames_differentUsers_match() {
+        assertThat("Maria", both(containsString("a")).and(containsString("i")))
+    }
+
+    @Test
+    fun checkData_emailPassword_noMatch() {
+        val email = "ant@gmail.com"
+        val password = "1234"
+        assertThat(
+            email, not(`is`(password))
+        ) //Validando con Hamcrest que el correo no es el mismo al password
+    }
+
+    @Test
+    fun checkExist_newEmail_returnsString() {
+        val oldEmail = "ant@gmail.com"
+        val newEmail = "ant@cursosandroid.com"
+
+        val emails = arrayOf(oldEmail, newEmail)
+        assertThat(emails, hasItemInArray(newEmail))
+    }
+
+    @Test
+    fun checkDomain_arrayEmail_returnsString() {
+        val nextEmail = "alain@cursosandroid.com"
+        val oldEmail = "ant@gmail.com"
+        val newEmail = "ant@cursosandroid.com"
+
+        val emails = arrayListOf(oldEmail, newEmail, nextEmail)
+        val newEmails = arrayListOf(nextEmail, newEmail)
+
+        assertThat(newEmails, everyItem(endsWith("cursosandroid.com")))
+    }
 }
