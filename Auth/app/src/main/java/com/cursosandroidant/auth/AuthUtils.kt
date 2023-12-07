@@ -1,5 +1,7 @@
 package com.cursosandroidant.auth
 
+import com.cursosandroidant.auth.exception.AuthException
+
 /****
  * Project: Auth
  * From: com.cursosandroidant.auth
@@ -19,9 +21,26 @@ fun userAuthentication(email: String, password: String): Boolean {
 }
 
 fun userAuthenticationTDD(email: String?, password: String?): AuthEvent {
-    if ((email ?: "").isEmpty()) AuthEvent.EMPTY_EMAIL
 
-    if (email == "ant@gmail.com" && password == "1234") AuthEvent.USER_EXISTS
+    if (email == null && password == null) throw AuthException(AuthEvent.NULL_FORM)
+
+    if (email == null) throw AuthException(AuthEvent.NULL_PASSWORD)
+
+    if (password == null) throw AuthException(AuthEvent.NULL_EMAIL)
+
+    if ((email ?: "").isEmpty() && (password ?: "").isEmpty()) return AuthEvent.EMPTY_FORM
+
+    if ((email ?: "").isEmpty()) return AuthEvent.EMPTY_EMAIL
+
+    val passwordNumeric = password?.toIntOrNull()
+
+    if ((password ?: "").isNotEmpty() && passwordNumeric == null) return AuthEvent.INVALID_PASSWORD
+
+    if ((email ?: "").isNotEmpty() && !isEmailValid(email ?: "")) return AuthEvent.INVALID_EMAIL
+
+    if (email == "ant@gmail.com" && password == "1234") return AuthEvent.USER_EXISTS
+
+    if (email == "ant@gmail.com" && (password ?: "").isEmpty()) return AuthEvent.EMPTY_PASSWORD
 
     return AuthEvent.USER_NOT_EXISTS
 }

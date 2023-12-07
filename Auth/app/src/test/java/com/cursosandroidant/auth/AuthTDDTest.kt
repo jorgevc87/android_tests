@@ -1,7 +1,9 @@
 package com.cursosandroidant.auth
 
+import com.cursosandroidant.auth.exception.AuthException
 import org.junit.Assert
 import org.junit.Test
+import java.lang.NullPointerException
 
 class AuthTDDTest {
 
@@ -23,16 +25,58 @@ class AuthTDDTest {
         Assert.assertEquals(AuthEvent.EMPTY_EMAIL, isAuthenticated)
     }
 
+    @Test
+    fun login_emptyPassword_returnsFailEvent() {
+        val isAuthenticated = userAuthenticationTDD("ant@gmail.com", "")
+        Assert.assertEquals(AuthEvent.EMPTY_PASSWORD, isAuthenticated)
+    }
+
+    @Test
+    fun login_emptyForm_returnsFailEvent() {
+        val isAuthenticated = userAuthenticationTDD("", "")
+        Assert.assertEquals(AuthEvent.EMPTY_FORM, isAuthenticated)
+    }
+
+    @Test
+    fun login_completeForm_invalidEmail_returnsFailEvent() {
+        val isAuthenticated = userAuthenticationTDD("ant@gmailcom", "")
+        Assert.assertEquals(AuthEvent.INVALID_EMAIL, isAuthenticated)
+    }
+
+    @Test
+    fun login_completeForm_invalidPassword_returnsFailEvent() {
+        val isAuthenticated = userAuthenticationTDD("ant@gmail.com", "123E")
+        Assert.assertEquals(AuthEvent.INVALID_PASSWORD, isAuthenticated)
+    }
+
+    @Test(expected = AuthException::class)
+    fun login_nullEmail_returnsException() {
+        val isAuthenticated = userAuthenticationTDD(null, "123E")
+        Assert.assertEquals(AuthEvent.NULL_EMAIL, isAuthenticated)
+    }
+
+    @Test
+    fun login_nullPassword_returnsException() {
+        Assert.assertThrows(AuthException::class.java) {
+            print((userAuthenticationTDD("ant@gmail.com", null)))
+        }
+    }
+
+    @Test
+    fun login_nullForm_returnsException() {
+        try {
+            val result = userAuthenticationTDD(null, null)
+            Assert.assertEquals(AuthEvent.NULL_FORM, result)
+        } catch (e: Exception) {
+            (e as? AuthException)?.let {
+                Assert.assertEquals(AuthEvent.NULL_FORM, it.authEvent)
+            }
+        }
+    }
 
     /*
-    login_emptyPassword_returnsFailEvent
-    login_emptyForm_returnsFailEvent
-    login_completeForm_invalidEmail_returnsFailEvent
-    login_completeForm_invalidPassword_returnsFailEvent
-    login_completeForm_invalidUser_returnsFailEvent
-    login_nullEmail_returnsException
-    login_nullPassword_returnsException
-    login_nullForm_returnsException
+
+
     login_completeForm_errorLengthPassword_returnsFailEvent
     */
 
