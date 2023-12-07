@@ -23,7 +23,7 @@ fun userAuthentication(email: String, password: String): Boolean {
 fun userAuthenticationTDD(email: String?, password: String?): AuthEvent {
 
     val isEmailNotEmpty = (email?.length ?: 0) > 0
-    val isCorrectPwd = (password?.length ?: 0) == 4
+    val isCorrectPwd = (password?.length ?: 0) != 4
 
     if (isEmailNotEmpty && isCorrectPwd) {
         throw AuthException(AuthEvent.LENGHT_PASSWORD)
