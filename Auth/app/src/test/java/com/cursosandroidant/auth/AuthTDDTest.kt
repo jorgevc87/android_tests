@@ -74,11 +74,21 @@ class AuthTDDTest {
         }
     }
 
+    @Test
+    fun login_completeForm_errorLengthPassword_returnsFailEvent() {
+        try {
+            val result = userAuthenticationTDD("srgergerg", "123")
+            Assert.assertEquals(AuthEvent.LENGHT_PASSWORD, result)
+        } catch (e: AuthException) {
+            e.let {
+                Assert.assertEquals(AuthEvent.LENGHT_PASSWORD, it.authEvent)
+            }
+        }
+    }
+
+
     /*
 
-
-    login_completeForm_errorLengthPassword_returnsFailEvent
     */
-
 
 }

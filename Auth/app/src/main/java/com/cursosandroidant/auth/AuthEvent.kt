@@ -23,5 +23,7 @@ enum class AuthEvent {
 
     NULL_PASSWORD,
 
-    NULL_FORM
+    NULL_FORM,
+
+    LENGHT_PASSWORD,
 }
