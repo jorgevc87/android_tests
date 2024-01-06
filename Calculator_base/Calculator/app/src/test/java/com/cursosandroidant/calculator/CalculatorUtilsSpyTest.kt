@@ -35,4 +35,20 @@ class CalculatorUtilsSpyTest {
         assertTrue(isCorrect)
         Mockito.verifyNoInteractions(operations)
     }
+
+    @Test
+    fun callc_callAddPoint_invalidSecondPoint_noReturns() {
+        val operation = "3.5x2."
+        val operator = "x"
+        var isCorrect = false
+
+        calculatorUtils.addPoint(operation) {
+            isCorrect = true
+        }
+
+        assertFalse(isCorrect)
+        Mockito.verify(operations).getOperator(operation)
+        Mockito.verify(operations).divideOperation(operator, operation)
+
+    }
 }
