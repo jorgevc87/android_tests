@@ -85,9 +85,9 @@ class MainActivity : AppCompatActivity() , OnClickListener {
             .baseUrl("https://api.openweathermap.org/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        // TODO: 17/12/21 get appId
+
         val service = retrofit.create(WeatherForecastService::class.java)
-        service.getWeatherForecastByCoordinates(19.4342, -99.1962, "",
+        service.getWeatherForecastByCoordinates(-12.192850, -76.993841, "b91cdf1e6130c5d5bd75993cca42087c",
             "metric", "en")
     }
 
